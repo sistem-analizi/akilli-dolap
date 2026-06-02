@@ -5,16 +5,16 @@
 #include <Adafruit_SSD1306.h>
 #include <WiFi.h>
 #include <HTTPClient.h> 
-
+#include <WiFiClientSecure.h>
 #include <Fonts/FreeSans9pt7b.h>
 
 #define I2CADDR 0x20 
 #define OLED_ADDR 0x3C
 #define BUZZER_PIN 19 
 
-const char* ssid = ""; 
-const char* password = "";
-String serverIP = ""; 
+const char* ssid = "Iphone"; 
+const char* password = "metinsina";
+String serverIP = "proje.kamilakgun.com.tr"; 
 
 const byte ROWS = 4; 
 const byte COLS = 3; 
@@ -169,10 +169,17 @@ void tusSesi() { digitalWrite(BUZZER_PIN, HIGH); delay(50); digitalWrite(BUZZER_
 void basariSesi() { digitalWrite(BUZZER_PIN, HIGH); delay(100); digitalWrite(BUZZER_PIN, LOW); delay(100); digitalWrite(BUZZER_PIN, HIGH); delay(150); digitalWrite(BUZZER_PIN, LOW); }
 void hataSesi() { digitalWrite(BUZZER_PIN, HIGH); delay(500); digitalWrite(BUZZER_PIN, LOW); }
 
+// --- GÜNCELLENEN HTTPS VERİ ÇEKME FONKSİYONU ---
 void verileriCek() {
   if (WiFi.status() == WL_CONNECTED) {
+    // HTTPS için Güvenli İstemci
+    WiFiClientSecure client;
+    client.setInsecure(); // SSL sertifika doğrulamasını atla
+    
     HTTPClient http;
-    http.begin("http://" + serverIP + "/akillidolap/api.php");
+    // Hocanın sitesindeki yeni klasör yoluna ve HTTPS'e göre düzenlendi
+    http.begin(client, "https://" + serverIP + "/2026/akilli-dolap/api.php");
+    
     if (http.GET() > 0) {
       String payload = http.getString();
       int dIdx = 0, sIdx = 0;
@@ -192,15 +199,15 @@ void verileriCek() {
       if (asama == 0) {
         ekraniGuncelle(); 
       }
+    } else {
+      Serial.println("Sunucuya baglanilamadi veya HTTP hatasi.");
     }
     http.end();
   }
 }
 
-
 void ledleriGuncelle() {
   for (int i = 0; i < 6; i++) {
-
     digitalWrite(kirmiziPins[i], HIGH); 
     digitalWrite(yesilPins[i], LOW);
   }
