@@ -9,7 +9,7 @@ for ($i = 1; $i <= 6; $i++) {
     $sql = "SELECT atanan_sifre FROM tahsisler WHERE dolap_id = $i AND bitis_zamani > '$suan' ORDER BY id DESC LIMIT 1";
     $sonuc = $baglanti->query($sql);
     
-    // PDO'da fetch_assoc yerine fetch(PDO::FETCH_ASSOC) kullanırız
+
     $row = $sonuc->fetch(PDO::FETCH_ASSOC); 
     
     if ($row) { 
