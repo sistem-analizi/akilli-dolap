@@ -12,8 +12,8 @@
 #define OLED_ADDR 0x3C
 #define BUZZER_PIN 19 
 
-const char* ssid = "Iphone"; 
-const char* password = "metinsina";
+const char* ssid = "KMLAKGN"; 
+const char* password = "qazxsw123456";
 String serverIP = "proje.kamilakgun.com.tr"; 
 
 const byte ROWS = 4; 
