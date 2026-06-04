@@ -1,5 +1,5 @@
 <?php
-// .env opsiyonel — yoksa varsayılan kullanılır.
+
 $env_path = __DIR__ . '/.env';
 $env = file_exists($env_path) ? parse_ini_file($env_path) : [];
 
@@ -14,9 +14,7 @@ try {
     $baglanti = new PDO("sqlite:" . $db_file);
     $baglanti->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // İlk açılışta schema.sql'i exec et — tablolar ve seed verisi.
-    // Şema değişirse: schema.sql düzenle, sunucudaki .db dosyasını sil →
-    // bir sonraki request yeniden seed eder.
+
     if ($ilk_kurulum) {
         $schema_yolu = __DIR__ . '/schema.sql';
         if (file_exists($schema_yolu)) {
