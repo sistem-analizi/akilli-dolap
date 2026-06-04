@@ -1,6 +1,5 @@
 .env
 
-# SQLite runtime dosyaları — repoda olmamalı, sunucuda runtime'da oluşur
 *.db
 *.db-journal
 *.db-wal
