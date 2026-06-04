@@ -169,15 +169,11 @@ void tusSesi() { digitalWrite(BUZZER_PIN, HIGH); delay(50); digitalWrite(BUZZER_
 void basariSesi() { digitalWrite(BUZZER_PIN, HIGH); delay(100); digitalWrite(BUZZER_PIN, LOW); delay(100); digitalWrite(BUZZER_PIN, HIGH); delay(150); digitalWrite(BUZZER_PIN, LOW); }
 void hataSesi() { digitalWrite(BUZZER_PIN, HIGH); delay(500); digitalWrite(BUZZER_PIN, LOW); }
 
-// --- GÜNCELLENEN HTTPS VERİ ÇEKME FONKSİYONU ---
 void verileriCek() {
   if (WiFi.status() == WL_CONNECTED) {
-    // HTTPS için Güvenli İstemci
     WiFiClientSecure client;
-    client.setInsecure(); // SSL sertifika doğrulamasını atla
-    
+    client.setInsecure(); 
     HTTPClient http;
-    // Hocanın sitesindeki yeni klasör yoluna ve HTTPS'e göre düzenlendi
     http.begin(client, "https://" + serverIP + "/2026/akilli-dolap/api.php");
     
     if (http.GET() > 0) {
