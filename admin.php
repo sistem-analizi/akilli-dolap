@@ -6,7 +6,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
     exit();
 }
 
-// Merkezi bağlantı dosyamızı çağırıyoruz
+
 require 'config.php';
 
 date_default_timezone_set('Europe/Istanbul');
@@ -21,7 +21,7 @@ if (isset($_POST['dolap_ata'])) {
     
     $bitis = date('Y-m-d H:i:s', strtotime("+$sure_dakika minutes", strtotime($suan)));
     
-    // Aktif dolap var mı kontrolü
+
     $k_kontrol = $baglanti->query("SELECT dolap_id FROM tahsisler WHERE kullanici_id = '$kullanici_id' AND bitis_zamani > '$suan' LIMIT 1")->fetch(PDO::FETCH_ASSOC);
     $d_kontrol = $baglanti->query("SELECT id FROM tahsisler WHERE dolap_id = '$dolap_id' AND bitis_zamani > '$suan' LIMIT 1")->fetch(PDO::FETCH_ASSOC);
     
