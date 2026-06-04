@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Sadece normal kullanıcıların girmesine izin ver
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'kullanici') {
     header("Location: login.php");
     exit();
@@ -13,11 +12,9 @@ date_default_timezone_set('Europe/Istanbul');
 $suan = date('Y-m-d H:i:s');
 $kullanici_id = $_SESSION['kullanici_id'];
 
-// 1. KULLANICININ KENDİ AKTİF DOLAPLARINI ÇEK
 $sql = "SELECT * FROM tahsisler WHERE kullanici_id = '$kullanici_id' AND bitis_zamani > '$suan' AND aktif_mi = 1 ORDER BY id DESC";
 $aktif_dolaplar = $baglanti->query($sql);
 
-// 2. GENEL İSTATİSTİK SORGUSU (Kaç dolap dolu, kaçı boş?)
 $istatistik_sql = "SELECT COUNT(DISTINCT dolap_id) as dolu_sayisi FROM tahsisler WHERE bitis_zamani > '$suan' AND aktif_mi = 1";
 $istatistik_sonuc = $baglanti->query($istatistik_sql)->fetch(PDO::FETCH_ASSOC);
 
@@ -33,18 +30,15 @@ $bos_dolap_sayisi = 6 - $dolu_dolap_sayisi;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Standart Açık Tema Tasarımı */
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
         .navbar-custom { background-color: #1e3a8a; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
         
-        /* İstatistik Kutuları */
         .stat-box { background: white; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .stat-title { font-size: 1rem; color: #6c757d; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; font-weight: bold; }
         .stat-value { font-size: 2.5rem; font-weight: bold; }
         .stat-bos { color: #16a34a; } 
         .stat-dolu { color: #dc2626; } 
 
-        /* Dolap Kartları */
         .locker-card { border: none; border-radius: 15px; background: white; text-align: center; padding: 30px; margin-bottom: 20px; transition: 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
         .locker-card:hover { transform: translateY(-5px); box-shadow: 0 15px 25px rgba(0,0,0,0.1); }
         .locker-icon { font-size: 60px; color: #1e3a8a; margin-bottom: 15px; }
@@ -119,7 +113,6 @@ $bos_dolap_sayisi = 6 - $dolu_dolap_sayisi;
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Geri sayım sayacı
         function sayaclariGuncelle() {
             document.querySelectorAll('.timer').forEach(function(el) {
                 var bitisMetni = el.getAttribute('data-bitis').replace(/-/g, "/"); 
